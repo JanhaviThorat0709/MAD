@@ -1,0 +1,155 @@
+Q1] Write an Android Program to demonstrate Activity life Cycle. 
+package com.example.lifecycleapp; 
+import android.os.Bundle; 
+import android.util.Log; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private static final String TAG = "ActivityLifecycle"; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        Log.d(TAG, "onCreate() called"); 
+    } 
+ 
+    @Override 
+    protected void onStart() { 
+        super.onStart(); 
+        Log.d(TAG, "onStart() called"); 
+    } 
+ 
+    @Override 
+    protected void onResume() { 
+        super.onResume(); 
+        Log.d(TAG, "onResume() called"); 
+    } 
+ 
+    @Override 
+    protected void onPause() { 
+        super.onPause(); 
+        Log.d(TAG, "onPause() called"); 
+    } 
+ 
+    @Override 
+    protected void onStop() { 
+        super.onStop(); 
+        Log.d(TAG, "onStop() called"); 
+    } 
+ 
+    @Override 
+    protected void onDestroy() { 
+        super.onDestroy(); 
+        Log.d(TAG, "onDestroy() called"); 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center"> 
+ 
+    <TextView 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Activity Life Cycle Example" 
+        android:textSize="20sp" /> 
+</LinearLayout> 
+ 
+ 
+Q2] Write a PhoneGap application to create a contact. Options are: 
+• Searching for Contacts  
+• Cloning Contacts  
+• Removing Contacts. 
+1. Install Cordova & Create a New Project 
+sh 
+CopyEdit 
+npm install -g cordova 
+cordova create ContactApp com.example.contactapp ContactApp 
+cd ContactApp 
+cordova platform add android 
+cordova plugin add cordova-plugin-contacts 
+2. Modify www/index.html 
+html 
+CopyEdit 
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Contact App</title> 
+<script src="cordova.js"></script> 
+<script> 
+function createContact() { 
+var myContact = navigator.contacts.create({"displayName": "John 
+Doe"}); 
+myContact.save( 
+function() { alert("Contact saved successfully!"); }, 
+function(error) { alert("Error: " + error.code); } 
+); 
+} 
+function findContacts() { 
+var options = new ContactFindOptions(); 
+options.filter = ""; 
+options.multiple = true; 
+var fields = ["displayName", "name"]; 
+navigator.contacts.find(fields, function(contacts) { 
+alert("Found " + contacts.length + " contacts."); 
+}, function(error) { 
+alert("Error: " + error.code); 
+}, options); 
+} 
+function cloneContact() { 
+var options = new ContactFindOptions(); 
+options.filter = "John Doe"; 
+options.multiple = false; 
+navigator.contacts.find(["displayName"], function(contacts) { 
+if (contacts.length > 0) { 
+var newContact = contacts[0].clone(); 
+newContact.displayName = "John Doe Clone"; 
+newContact.save( 
+                        function() { alert("Contact cloned successfully!"); 
+}, 
+                        function(error) { alert("Error: " + error.code); } 
+                    ); 
+                } else { 
+                    alert("No contact found to clone."); 
+                } 
+            }, function(error) { 
+                alert("Error: " + error.code); 
+            }, options); 
+        } 
+ 
+        function removeContact() { 
+            var options = new ContactFindOptions(); 
+            options.filter = "John Doe"; 
+            options.multiple = false; 
+            navigator.contacts.find(["displayName"], function(contacts) { 
+                if (contacts.length > 0) { 
+                    contacts[0].remove( 
+                        function() { alert("Contact removed 
+successfully!"); }, 
+                        function(error) { alert("Error: " + error.code); } 
+                    ); 
+                } else { 
+                    alert("No contact found to remove."); 
+                } 
+            }, function(error) { 
+                alert("Error: " + error.code); 
+            }, options); 
+        } 
+    </script> 
+</head> 
+<body> 
+    <h1>PhoneGap Contact App</h1> 
+    <button onclick="createContact()">Create Contact</button> 
+    <button onclick="findContacts()">Find Contacts</button> 
+    <button onclick="cloneContact()">Clone Contact</button> 
+    <button onclick="removeContact()">Remove Contact</button> 
+</body> 
+</html> 
+ 
+Run using: 
+cordova run android 
+ 
+ 
