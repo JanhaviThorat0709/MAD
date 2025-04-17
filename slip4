@@ -1,0 +1,101 @@
+Q.1) Construct image switcher using setFactory(). 
+
+// ImageSwitcherActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.ImageSwitcher; 
+import android.widget.ImageView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class ImageSwitcherActivity extends AppCompatActivity { 
+    private ImageSwitcher imageSwitcher; 
+    private int[] images = {R.drawable.image1, R.drawable.image2, R.drawable.image3}; 
+    private int index = 0; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_image_switcher); 
+ 
+        imageSwitcher = findViewById(R.id.imageSwitcher); 
+        imageSwitcher.setFactory(() -> new ImageView(getApplicationContext())); 
+        imageSwitcher.setImageResource(images[index]); 
+ 
+        Button nextButton = findViewById(R.id.nextButton); 
+        nextButton.setOnClickListener(v -> { 
+            index = (index + 1) % images.length; 
+            imageSwitcher.setImageResource(images[index]); 
+        }); 
+    } 
+} 
+ 
+// activity_image_switcher.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center" 
+    android:padding="20dp"> 
+ 
+    <ImageSwitcher 
+        android:id="@+id/imageSwitcher" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"/> 
+ 
+    <Button 
+        android:id="@+id/nextButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Next Image"/> 
+</LinearLayout> 
+ 
+Q.2) Write a program to search a specific location on Google Map. 
+
+// GoogleMapsSearchActivity.java 
+import android.content.Intent; 
+import android.net.Uri; 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class GoogleMapsSearchActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_google_maps); 
+ 
+        EditText locationInput = findViewById(R.id.locationInput); 
+        Button searchButton = findViewById(R.id.searchButton); 
+ 
+        searchButton.setOnClickListener(v -> { 
+            String location = locationInput.getText().toString(); 
+            Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + location); 
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri); 
+            mapIntent.setPackage("com.google.android.apps.maps"); 
+            startActivity(mapIntent); 
+        }); 
+    } 
+} 
+ 
+// activity_google_maps.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/locationInput" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter location"/> 
+ 
+    <Button 
+        android:id="@+id/searchButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Search"/> 
+</LinearLayout> 
