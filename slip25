@@ -1,0 +1,182 @@
+Q.1] Create an android application for SMS activity.  
+(AndroidManifest.xml) 
+
+xml 
+CopyEdit 
+<uses-permission android:name="android.permission.SEND_SMS"/> 
+package com.example.smsapp; 
+import android.Manifest; 
+import android.content.pm.PackageManager; 
+import android.os.Bundle; 
+import android.telephony.SmsManager; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+import androidx.annotation.NonNull; 
+import androidx.appcompat.app.AppCompatActivity; 
+import androidx.core.app.ActivityCompat; 
+import androidx.core.content.ContextCompat; 
+public class MainActivity extends AppCompatActivity { 
+private static final int SMS_PERMISSION_REQUEST_CODE = 1; 
+private EditText edtPhoneNumber, edtMessage; 
+private Button btnSendSms; 
+@Override 
+protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        edtPhoneNumber = findViewById(R.id.edtPhoneNumber); 
+        edtMessage = findViewById(R.id.edtMessage); 
+        btnSendSms = findViewById(R.id.btnSendSms); 
+ 
+        btnSendSms.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) 
+                        != PackageManager.PERMISSION_GRANTED) { 
+                    ActivityCompat.requestPermissions(MainActivity.this, new 
+String[]{Manifest.permission.SEND_SMS}, 
+                            SMS_PERMISSION_REQUEST_CODE); 
+                } else { 
+                    sendSms(); 
+                } 
+            } 
+        }); 
+    } 
+ 
+    private void sendSms() { 
+        String phoneNumber = edtPhoneNumber.getText().toString(); 
+        String message = edtMessage.getText().toString(); 
+ 
+        if (!phoneNumber.isEmpty() && !message.isEmpty()) { 
+            SmsManager smsManager = SmsManager.getDefault(); 
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null); 
+            Toast.makeText(MainActivity.this, "SMS Sent Successfully!", Toast.LENGTH_SHORT).show(); 
+        } else { 
+            Toast.makeText(MainActivity.this, "Please enter phone number and message", 
+Toast.LENGTH_SHORT).show(); 
+        } 
+    } 
+ 
+    @Override 
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, 
+@NonNull int[] grantResults) { 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults); 
+        if (requestCode == SMS_PERMISSION_REQUEST_CODE) { 
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { 
+                sendSms(); 
+            } else { 
+                Toast.makeText(this, "SMS Permission Denied", Toast.LENGTH_SHORT).show(); 
+            } 
+        } 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/edtPhoneNumber" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter Phone Number" 
+        android:inputType="phone"/> 
+ 
+    <EditText 
+        android:id="@+id/edtMessage" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter Message"/> 
+ 
+    <Button 
+        android:id="@+id/btnSendSms" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Send SMS"/> 
+</LinearLayout> 
+ 
+Q.2] Create an Android application, which show Login Form in table layout. After clicking LOGIN 
+button display the “Login Successful…” message if username and password is same else display 
+“Invalid Login” message in Toast Control.  
+package com.example.loginapp; 
+ 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private EditText edtUsername, edtPassword; 
+    private Button btnLogin; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        edtUsername = findViewById(R.id.edtUsername); 
+        edtPassword = findViewById(R.id.edtPassword); 
+        btnLogin = findViewById(R.id.btnLogin); 
+ 
+        btnLogin.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                String username = edtUsername.getText().toString(); 
+                String password = edtPassword.getText().toString(); 
+ 
+                if (username.equals("admin") && password.equals("1234")) { 
+                    Toast.makeText(MainActivity.this, "Login Successful...", Toast.LENGTH_SHORT).show(); 
+                } else { 
+                    Toast.makeText(MainActivity.this, "Invalid Login", Toast.LENGTH_SHORT).show(); 
+                } 
+            } 
+        }); 
+    } 
+} 
+ 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:stretchColumns="1" 
+    android:padding="20dp"> 
+ 
+    <TableRow> 
+        <TextView 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="Username: "/> 
+        <EditText 
+            android:id="@+id/edtUsername" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:hint="Enter Username"/> 
+    </TableRow> 
+ 
+    <TableRow> 
+        <TextView 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="Password: "/> 
+        <EditText 
+            android:id="@+id/edtPassword" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:hint="Enter Password" 
+            android:inputType="textPassword"/> 
+    </TableRow> 
+ 
+    <TableRow> 
+        <Button 
+            android:id="@+id/btnLogin" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="LOGIN"/> 
+    </TableRow> 
+</TableLayout>
