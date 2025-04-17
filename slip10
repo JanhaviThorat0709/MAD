@@ -1,0 +1,105 @@
+Q.1] Create an application that allows the user to enter a number in the textbox named getnum. 
+Check whether the number in the textbox getnum is Armstrong or not. Print the message using 
+Toast control when the user clicks on the button Check. 
+
+// ArmstrongNumberToastActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+public class ArmstrongNumberToastActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_armstrong_toast); 
+ 
+        EditText inputNumber = findViewById(R.id.inputNumber); 
+        Button checkButton = findViewById(R.id.checkButton); 
+ 
+        checkButton.setOnClickListener(v -> { 
+            int num = Integer.parseInt(inputNumber.getText().toString()); 
+            int originalNum = num, sum = 0; 
+            while (num > 0) { 
+                int digit = num % 10; 
+                sum += digit * digit * digit; 
+                num /= 10; 
+            } 
+            Toast.makeText(this, (sum == originalNum) ? "Armstrong Number" : "Not an Armstrong 
+Number", Toast.LENGTH_SHORT).show(); 
+        }); 
+    } 
+} 
+ 
+// activity_armstrong_toast.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/inputNumber" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter a number"/> 
+ 
+    <Button 
+        android:id="@+id/checkButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Check"/> 
+</LinearLayout> 
+ 
+Q.2] Write a program to draw GUI by using Spinner, Buttons.
+
+// SpinnerButtonActivity.java 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.AdapterView; 
+import android.widget.ArrayAdapter; 
+import android.widget.Button; 
+import android.widget.Spinner; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class SpinnerButtonActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_spinner_buttons); 
+ 
+        Spinner spinner = findViewById(R.id.spinner); 
+        Button button = findViewById(R.id.button); 
+ 
+        String[] options = {"Option 1", "Option 2", "Option 3"}; 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, 
+android.R.layout.simple_spinner_dropdown_item, options); 
+        spinner.setAdapter(adapter); 
+ 
+        button.setOnClickListener(v -> Toast.makeText(this, "Selected: " + 
+spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show()); 
+    } 
+} 
+ 
+// activity_spinner_buttons.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <Spinner 
+        android:id="@+id/spinner" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"/> 
+ 
+    <Button 
+        android:id="@+id/button" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Show Selection"/> 
+</LinearLayout> 
+ 
