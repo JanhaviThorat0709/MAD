@@ -1,0 +1,124 @@
+Q1] Write an Android Program to Change the Image Displayed on the Screen. 
+package com.example.imagechanger; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.ImageView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private ImageView imageView; 
+    private Button btnChangeImage; 
+    private int[] images = {R.drawable.image1, R.drawable.image2, R.drawable.image3}; 
+    private int currentIndex = 0; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        imageView = findViewById(R.id.imageView); 
+        btnChangeImage = findViewById(R.id.btnChangeImage); 
+ 
+        btnChangeImage.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                currentIndex = (currentIndex + 1) % images.length; 
+                imageView.setImageResource(images[currentIndex]); 
+            } 
+        }); 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center"> 
+ 
+    <ImageView 
+        android:id="@+id/imageView" 
+        android:layout_width="200dp" 
+        android:layout_height="200dp" 
+        android:src="@drawable/image1"/> 
+ 
+    <Button 
+        android:id="@+id/btnChangeImage" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Change Image" 
+        android:layout_marginTop="20dp"/> 
+</LinearLayout> 
+ 
+ 
+Q2] Construct an Android Application to create two option menu as Find Factorial and Find Sum of 
+Digits. Accept a number and calculate Factorial and Sum of Digits of a given number by clicking 
+Menu. 
+package com.example.factorialsum; 
+ 
+import android.os.Bundle; 
+import android.view.Menu; 
+import android.view.MenuInflater; 
+import android.view.MenuItem; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+    } 
+ 
+    @Override 
+    public boolean onCreateOptionsMenu(Menu menu) { 
+        MenuInflater inflater = getMenuInflater(); 
+        inflater.inflate(R.menu.options_menu, menu); 
+        return true; 
+    } 
+ 
+    @Override 
+    public boolean onOptionsItemSelected(MenuItem item) { 
+        if (item.getItemId() == R.id.factorial) { 
+            int num = 5; // Example number 
+            int fact = 1; 
+            for (int i = 1; i <= num; i++) { 
+                fact *= i; 
+            } 
+            Toast.makeText(this, "Factorial of " + num + " is " + fact, Toast.LENGTH_LONG).show(); 
+            return true; 
+        } else if (item.getItemId() == R.id.sum_digits) { 
+            int num = 123; // Example number 
+            int sum = 0, temp = num; 
+            while (temp != 0) { 
+                sum += temp % 10; 
+                temp /= 10; 
+            } 
+            Toast.makeText(this, "Sum of digits of " + num + " is " + sum, Toast.LENGTH_LONG).show(); 
+            return true; 
+        } 
+        return super.onOptionsItemSelected(item); 
+    } 
+} 
+(res/menu/options_menu.xml) 
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> 
+    <item android:id="@+id/factorial" 
+        android:title="Find Factorial"/> 
+    <item android:id="@+id/sum_digits" 
+        android:title="Find Sum of Digits"/> 
+</menu> 
+ 
+Activity_main.xml 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:gravity="center"> 
+ 
+    <TextView 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Choose an option from the menu" 
+        android:textSize="18sp"/> 
+</LinearLayout> 
+ 
