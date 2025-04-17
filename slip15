@@ -1,0 +1,128 @@
+Q1] Construct an Android application to accept two numbers in two EditText, with four buttons as 
+ADD, SUB, DIV and MULT and display Result using Toast Control. 
+// ArithmeticOperationsActivity.java 
+
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class ArithmeticOperationsActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_arithmetic_operations); 
+ 
+        EditText num1 = findViewById(R.id.num1); 
+        EditText num2 = findViewById(R.id.num2); 
+        Button addButton = findViewById(R.id.addButton); 
+        Button subButton = findViewById(R.id.subButton); 
+        Button mulButton = findViewById(R.id.mulButton); 
+        Button divButton = findViewById(R.id.divButton); 
+ 
+        View.OnClickListener listener = v -> { 
+            int n1 = Integer.parseInt(num1.getText().toString()); 
+            int n2 = Integer.parseInt(num2.getText().toString()); 
+            int result = 0; 
+            switch (v.getId()) { 
+                case R.id.addButton: result = n1 + n2; break; 
+                case R.id.subButton: result = n1 - n2; break; 
+                case R.id.mulButton: result = n1 * n2; break; 
+                case R.id.divButton: result = n1 / n2; break; 
+            } 
+            Toast.makeText(this, "Result: " + result, Toast.LENGTH_SHORT).show(); 
+        }; 
+ 
+        addButton.setOnClickListener(listener); 
+        subButton.setOnClickListener(listener); 
+        mulButton.setOnClickListener(listener); 
+        divButton.setOnClickListener(listener); 
+    } 
+} 
+ 
+// activity_arithmetic_operations.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+    <EditText android:id="@+id/num1" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter first number"/> 
+    <EditText android:id="@+id/num2" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter second number"/> 
+    <Button android:id="@+id/addButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="+"/> 
+    <Button android:id="@+id/subButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="-"/> 
+    <Button android:id="@+id/mulButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="*"/> 
+    <Button android:id="@+id/divButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="/"/> 
+</LinearLayout> 
+ 
+ 
+Q2] Construct a bank app to display different menu like withdraw, deposit etc. 
+// BankTransactionActivity.java 
+
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class BankTransactionActivity extends AppCompatActivity { 
+    private double balance = 1000.00; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_bank_transaction); 
+ 
+        EditText amountInput = findViewById(R.id.amountInput); 
+        Button depositButton = findViewById(R.id.depositButton); 
+        Button withdrawButton = findViewById(R.id.withdrawButton); 
+        TextView balanceText = findViewById(R.id.balanceText); 
+        balanceText.setText("Balance: $" + balance); 
+ 
+        depositButton.setOnClickListener(v -> { 
+            double amount = Double.parseDouble(amountInput.getText().toString()); 
+            balance += amount; 
+            balanceText.setText("Balance: $" + balance); 
+            Toast.makeText(this, "Deposited: $" + amount, Toast.LENGTH_SHORT).show(); 
+        }); 
+ 
+        withdrawButton.setOnClickListener(v -> { 
+            double amount = Double.parseDouble(amountInput.getText().toString()); 
+            if (amount > balance) { 
+                Toast.makeText(this, "Insufficient Funds!", Toast.LENGTH_SHORT).show(); 
+            } else { 
+                balance -= amount; 
+                balanceText.setText("Balance: $" + balance); 
+                Toast.makeText(this, "Withdrawn: $" + amount, Toast.LENGTH_SHORT).show(); 
+            } 
+        }); 
+    } 
+} 
+ 
+// activity_bank_transaction.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText android:id="@+id/amountInput" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter amount"/> 
+    <Button android:id="@+id/depositButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Deposit"/> 
+    <Button android:id="@+id/withdrawButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Withdraw"/> 
+    <TextView android:id="@+id/balanceText" android:layout_width="wrap_content" 
+android:layout_height="wrap_content"/> 
+</LinearLayout> 
+ 
