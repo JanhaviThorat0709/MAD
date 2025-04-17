@@ -1,0 +1,241 @@
+Q1] Create an Android Application that will change color of the screen and change the font size of 
+text view using xml. 
+package com.example.colorfontsizeapp; 
+ 
+import android.graphics.Color; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.RelativeLayout; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private RelativeLayout layout; 
+    private TextView textView; 
+    private Button btnChangeColor, btnIncreaseFont, btnDecreaseFont; 
+    private float fontSize = 16f; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        layout = findViewById(R.id.mainLayout); 
+        textView = findViewById(R.id.textView); 
+        btnChangeColor = findViewById(R.id.btnChangeColor); 
+        btnIncreaseFont = findViewById(R.id.btnIncreaseFont); 
+        btnDecreaseFont = findViewById(R.id.btnDecreaseFont); 
+ 
+        btnChangeColor.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                layout.setBackgroundColor(Color.rgb((int) (Math.random() * 256), 
+                        (int) (Math.random() * 256), (int) (Math.random() * 256))); 
+            } 
+        }); 
+ 
+        btnIncreaseFont.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                fontSize += 2; 
+                textView.setTextSize(fontSize); 
+            } 
+        }); 
+ 
+        btnDecreaseFont.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                if (fontSize > 10) { 
+                    fontSize -= 2; 
+                    textView.setTextSize(fontSize); 
+                } 
+            } 
+        }); 
+    } 
+} 
+ 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/mainLayout" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:background="@android:color/white" 
+    android:padding="20dp"> 
+ 
+    <TextView 
+        android:id="@+id/textView" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Change My Style!" 
+        android:textSize="16sp" 
+        android:textStyle="bold" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="50dp" /> 
+ 
+    <Button 
+        android:id="@+id/btnChangeColor" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Change Background Color" 
+        android:layout_below="@id/textView" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="30dp" /> 
+ 
+    <Button 
+        android:id="@+id/btnIncreaseFont" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Increase Font Size" 
+        android:layout_below="@id/btnChangeColor" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp" /> 
+ 
+    <Button 
+        android:id="@+id/btnDecreaseFont" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Decrease Font Size" 
+        android:layout_below="@id/btnIncreaseFont" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp" /> 
+</RelativeLayout> 
+ 
+Q2] Create table Project (id, name, dept, city). Create Application to perform the following 
+operations. (using SQLite database)  
+i] Add at least 5 records.  
+ii] Display all the records. 
+package com.example.projectdatabase; 
+ 
+import android.content.ContentValues; 
+import android.content.Context; 
+import android.database.Cursor; 
+import android.database.sqlite.SQLiteDatabase; 
+import android.database.sqlite.SQLiteOpenHelper; 
+import java.util.ArrayList; 
+import java.util.List; 
+ 
+public class DatabaseHelper extends SQLiteOpenHelper { 
+    private static final String DATABASE_NAME = "ProjectDB"; 
+    private static final int DATABASE_VERSION = 1; 
+    private static final String TABLE_NAME = "Project"; 
+    private static final String COL_ID = "id"; 
+    private static final String COL_NAME = "name"; 
+    private static final String COL_DEPT = "dept"; 
+    private static final String COL_CITY = "city"; 
+ 
+    public DatabaseHelper(Context context) { 
+        super(context, DATABASE_NAME, null, DATABASE_VERSION); 
+    } 
+ 
+    @Override 
+    public void onCreate(SQLiteDatabase db) { 
+        String createTable = "CREATE TABLE " + TABLE_NAME + " (" + 
+                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+                COL_NAME + " TEXT, " + 
+                COL_DEPT + " TEXT, " + 
+                COL_CITY + " TEXT)"; 
+        db.execSQL(createTable); 
+    } 
+ 
+    @Override 
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { 
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME); 
+        onCreate(db); 
+    } 
+ 
+    public void insertProject(String name, String dept, String city) { 
+        SQLiteDatabase db = this.getWritableDatabase(); 
+        ContentValues values = new ContentValues(); 
+        values.put(COL_NAME, name); 
+        values.put(COL_DEPT, dept); 
+        values.put(COL_CITY, city); 
+        db.insert(TABLE_NAME, null, values); 
+        db.close(); 
+    } 
+ 
+    public List<String> getAllProjects() { 
+        List<String> projects = new ArrayList<>(); 
+        SQLiteDatabase db = this.getReadableDatabase(); 
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null); 
+        if (cursor.moveToFirst()) { 
+            do { 
+                projects.add(cursor.getString(1) + " - " + cursor.getString(2) + " - " + cursor.getString(3)); 
+            } while (cursor.moveToNext()); 
+        } 
+        cursor.close(); 
+        return projects; 
+    } 
+} 
+ 
+ 
+package com.example.projectdatabase; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.ArrayAdapter; 
+import android.widget.Button; 
+import android.widget.ListView; 
+import androidx.appcompat.app.AppCompatActivity; 
+import java.util.List; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    DatabaseHelper dbHelper; 
+    ListView listView; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        dbHelper = new DatabaseHelper(this); 
+        listView = findViewById(R.id.listView); 
+ 
+        Button btnInsert = findViewById(R.id.btnInsert); 
+        Button btnShow = findViewById(R.id.btnShow); 
+ 
+        btnInsert.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                dbHelper.insertProject("Project A", "IT", "Pune"); 
+                dbHelper.insertProject("Project B", "HR", "Mumbai"); 
+                dbHelper.insertProject("Project C", "Finance", "Delhi"); 
+                dbHelper.insertProject("Project D", "Marketing", "Bangalore"); 
+                dbHelper.insertProject("Project E", "Operations", "Hyderabad"); 
+            } 
+        }); 
+ 
+        btnShow.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                List<String> projects = dbHelper.getAllProjects(); 
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this, 
+android.R.layout.simple_list_item_1, projects); 
+                listView.setAdapter(adapter); 
+            } 
+        }); 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <Button 
+        android:id="@+id/btnInsert" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Insert 5 Records" /> 
+ 
+    <Button 
+        android:id="@+id/btnShow" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Show Records" /> 
+ 
+    <ListView 
+        android:id="@+id/listView" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" /> 
+</LinearLayout> 
+ 
