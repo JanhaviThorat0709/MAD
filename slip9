@@ -1,0 +1,115 @@
+ Q.1] Create an application that allows the user to enter a number in the textbox named 
+„getnum‟. Check whether the number in the textbox „getnum‟ is Palindrome or not. Print the 
+message accordingly in the label when the user clicks on the button „Check‟. 
+
+// PalindromeActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class PalindromeActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_palindrome); 
+ 
+        EditText inputNumber = findViewById(R.id.inputNumber); 
+        Button checkButton = findViewById(R.id.checkButton); 
+        TextView resultText = findViewById(R.id.resultText); 
+ 
+        checkButton.setOnClickListener(v -> { 
+            String num = inputNumber.getText().toString(); 
+            String reversed = new StringBuilder(num).reverse().toString(); 
+            resultText.setText(num.equals(reversed) ? "Palindrome" : "Not a Palindrome"); 
+        }); 
+    } 
+} 
+ 
+// activity_palindrome.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/inputNumber" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter a number"/> 
+ 
+    <Button 
+        android:id="@+id/checkButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Check"/> 
+ 
+    <TextView 
+        android:id="@+id/resultText" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"/> 
+</LinearLayout> 
+
+Q.2] Java android program to create simple calculator. 
+
+// CalculatorActivity.java 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class CalculatorActivity extends AppCompatActivity { 
+    EditText num1, num2; 
+    TextView result; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_calculator); 
+ 
+        num1 = findViewById(R.id.num1); 
+        num2 = findViewById(R.id.num2); 
+        result = findViewById(R.id.result); 
+    } 
+ 
+    public void calculate(View view) { 
+        int n1 = Integer.parseInt(num1.getText().toString()); 
+        int n2 = Integer.parseInt(num2.getText().toString()); 
+        int res = 0; 
+        switch (view.getId()) { 
+            case R.id.addButton: res = n1 + n2; break; 
+            case R.id.subButton: res = n1 - n2; break; 
+            case R.id.mulButton: res = n1 * n2; break; 
+            case R.id.divButton: res = n1 / n2; break; 
+        } 
+        result.setText("Result: " + res); 
+    } 
+} 
+ 
+// activity_calculator.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:orientation="vertical" 
+android:padding="20dp"> 
+<EditText android:id="@+id/num1" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter first number"/> 
+<EditText android:id="@+id/num2" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter second number"/> 
+<TextView android:id="@+id/result" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Result:"/> 
+<Button android:id="@+id/addButton" android:onClick="calculate" 
+android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+"/> 
+<Button android:id="@+id/subButton" android:onClick="calculate" 
+android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-"/> 
+<Button android:id="@+id/mulButton" android:onClick="calculate" 
+android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="*"/> 
+<Button android:id="@+id/divButton" android:onClick="calculate" 
+android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="/"/> 
+</LinearLayout> 
