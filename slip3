@@ -1,0 +1,125 @@
+Q.1) Create an application that allows the user to enter a number in the textbox. Check whether 
+the number in the textbox is Armstrong or not. Print the message accordingly in the label control. 
+
+// ArmstrongNumberActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class ArmstrongNumberActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_armstrong); 
+ 
+        EditText inputNumber = findViewById(R.id.inputNumber); 
+        Button checkButton = findViewById(R.id.checkButton); 
+        TextView resultText = findViewById(R.id.resultText); 
+ 
+        checkButton.setOnClickListener(v -> { 
+            int num = Integer.parseInt(inputNumber.getText().toString()); 
+            int originalNum = num, sum = 0; 
+            while (num > 0) { 
+                int digit = num % 10; 
+                sum += digit * digit * digit; 
+                num /= 10; 
+            } 
+            resultText.setText((sum == originalNum) ? "Armstrong Number" : "Not an Armstrong 
+Number"); 
+        }); 
+    } 
+} 
+ 
+// activity_armstrong.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/inputNumber" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter a number"/> 
+ 
+    <Button 
+        android:id="@+id/checkButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Check"/> 
+ 
+    <TextView 
+        android:id="@+id/resultText" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"/> 
+</LinearLayout> 
+ 
+Q.2) Create an Android application which examine a phone number entered by a user with the 
+given format.
+
+• Area code should be one of the following: 040, 041, 050, 0400, 044 
+ • There should 6 - 8 numbers in telephone number (+ area code).  
+// PhoneNumberValidationActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class PhoneNumberValidationActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_phone_validation); 
+ 
+        EditText phoneNumber = findViewById(R.id.phoneNumber); 
+        Button validateButton = findViewById(R.id.validateButton); 
+        TextView validationResult = findViewById(R.id.validationResult); 
+ 
+        validateButton.setOnClickListener(v -> { 
+            String phone = phoneNumber.getText().toString(); 
+            String[] validAreaCodes = {"040", "041", "050", "0400", "044"}; 
+            boolean isValid = false; 
+            for (String code : validAreaCodes) { 
+                if (phone.startsWith(code) && phone.length() >= 6 + code.length() && phone.length() <= 8 
++ code.length()) { 
+                    isValid = true; 
+                    break; 
+                } 
+            } 
+            validationResult.setText(isValid ? "Valid Phone Number" : "Invalid Phone Number"); 
+        }); 
+    } 
+} 
+ 
+// activity_phone_validation.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/phoneNumber" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter phone number"/> 
+ 
+    <Button 
+        android:id="@+id/validateButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Validate"/> 
+ 
+    <TextView 
+        android:id="@+id/validationResult" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"/> 
+</LinearLayout> 
+ 
+ 
