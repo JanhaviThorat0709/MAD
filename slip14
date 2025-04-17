@@ -1,0 +1,94 @@
+Q.1] Construct an Android application to accept a number and calculate and display Factorial of a 
+given number in TextView. 
+
+// FactorialActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class FactorialActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_factorial); 
+ 
+        EditText inputNumber = findViewById(R.id.inputNumber); 
+        Button calculateButton = findViewById(R.id.calculateButton); 
+        TextView resultText = findViewById(R.id.resultText); 
+ 
+        calculateButton.setOnClickListener(v -> { 
+            int num = Integer.parseInt(inputNumber.getText().toString()); 
+            int fact = 1; 
+            for (int i = 1; i <= num; i++) { 
+                fact *= i; 
+            } 
+            resultText.setText("Factorial: " + fact); 
+        }); 
+    } 
+} 
+ 
+// activity_factorial.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:orientation="vertical" 
+android:padding="20dp"> 
+<EditText android:id="@+id/inputNumber" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter a number"/> 
+<Button android:id="@+id/calculateButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Calculate"/> 
+<TextView android:id="@+id/resultText" android:layout_width="wrap_content" 
+android:layout_height="wrap_content"/> 
+</LinearLayout> 
+
+Q.2] Create an Android application, which show Login Form. After clicking LOGIN button display 
+the “Login Successful…” message if username and password is same else display “Invalid Login” 
+message in Toast Control. 
+
+// LoginToastActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+public class LoginToastActivity extends AppCompatActivity { 
+@Override 
+protected void onCreate(Bundle savedInstanceState) { 
+super.onCreate(savedInstanceState); 
+setContentView(R.layout.activity_login_toast); 
+EditText username = findViewById(R.id.username); 
+        EditText password = findViewById(R.id.password); 
+        Button loginButton = findViewById(R.id.loginButton); 
+ 
+        loginButton.setOnClickListener(v -> { 
+            String user = username.getText().toString(); 
+            String pass = password.getText().toString(); 
+            if (user.equals("admin") && pass.equals("1234")) { 
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show(); 
+            } else { 
+                Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show(); 
+            } 
+        }); 
+    } 
+} 
+ 
+// activity_login_toast.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText android:id="@+id/username" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter Username"/> 
+    <EditText android:id="@+id/password" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter Password" 
+android:inputType="textPassword"/> 
+    <Button android:id="@+id/loginButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Login"/> 
+</LinearLayout> 
+ 
