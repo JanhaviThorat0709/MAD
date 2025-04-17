@@ -1,0 +1,140 @@
+Q.1] Create an Android Application to accept two numbers to calculate its Power and Average. 
+Create two buttons: Power and Average. Display the appropriate result on the next activity on 
+Button click. 
+ 
+// PowerAverageActivity.java 
+import android.content.Intent; 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class PowerAverageActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_power_average); 
+ 
+        EditText num1 = findViewById(R.id.num1); 
+        EditText num2 = findViewById(R.id.num2); 
+        Button powerButton = findViewById(R.id.powerButton); 
+        Button averageButton = findViewById(R.id.averageButton); 
+ 
+        powerButton.setOnClickListener(v -> { 
+            int base = Integer.parseInt(num1.getText().toString()); 
+            int exponent = Integer.parseInt(num2.getText().toString()); 
+            int result = (int) Math.pow(base, exponent); 
+            navigateToResult("Power: " + result); 
+        }); 
+ 
+        averageButton.setOnClickListener(v -> { 
+            int n1 = Integer.parseInt(num1.getText().toString()); 
+            int n2 = Integer.parseInt(num2.getText().toString()); 
+            int result = (n1 + n2) / 2; 
+            navigateToResult("Average: " + result); 
+        }); 
+    } 
+ 
+    private void navigateToResult(String message) { 
+        Intent intent = new Intent(this, ResultActivity.class); 
+        intent.putExtra("result", message); 
+        startActivity(intent); 
+    } 
+} 
+ 
+// ResultActivity.java 
+import android.os.Bundle; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class ResultActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_result); 
+ 
+        TextView resultText = findViewById(R.id.resultText); 
+        String result = getIntent().getStringExtra("result"); 
+        resultText.setText(result); 
+    } 
+} 
+ 
+// activity_power_average.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:orientation="vertical" 
+android:padding="20dp"> 
+<EditText android:id="@+id/num1" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter first number"/> 
+<EditText android:id="@+id/num2" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter second number"/> 
+<Button android:id="@+id/powerButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Power"/> 
+<Button android:id="@+id/averageButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Average"/> 
+</LinearLayout> 
+// activity_result.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:gravity="center" 
+android:padding="20dp"> 
+<TextView android:id="@+id/resultText" android:layout_width="wrap_content" 
+android:layout_height="wrap_content"/> 
+</LinearLayout> 
+
+Q.2] Create an Android Application to perform following string operation according to user 
+selection of radio button. 
+
+// StringOperationsActivity.java 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.RadioButton; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class StringOperationsActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_string_operations); 
+ 
+        EditText inputText = findViewById(R.id.inputText); 
+        RadioButton uppercase = findViewById(R.id.uppercase); 
+        RadioButton lowercase = findViewById(R.id.lowercase); 
+        Button applyButton = findViewById(R.id.applyButton); 
+        TextView resultText = findViewById(R.id.resultText); 
+ 
+        applyButton.setOnClickListener(v -> { 
+            String text = inputText.getText().toString(); 
+            if (uppercase.isChecked()) { 
+                resultText.setText(text.toUpperCase()); 
+            } else if (lowercase.isChecked()) { 
+                resultText.setText(text.toLowerCase()); 
+            } 
+        }); 
+    } 
+} 
+ 
+// activity_string_operations.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent" 
+android:orientation="vertical" 
+android:padding="20dp"> 
+<EditText android:id="@+id/inputText" android:layout_width="match_parent" 
+android:layout_height="wrap_content" android:hint="Enter text"/> 
+<RadioButton android:id="@+id/uppercase" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Uppercase"/> 
+<RadioButton android:id="@+id/lowercase" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Lowercase"/> 
+<Button android:id="@+id/applyButton" android:layout_width="wrap_content" 
+android:layout_height="wrap_content" android:text="Apply"/> 
+<TextView android:id="@+id/resultText" android:layout_width="wrap_content" 
+android:layout_height="wrap_content"/> 
+</LinearLayout> 
