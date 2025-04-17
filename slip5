@@ -1,0 +1,159 @@
+Q.1) Java Android Program to Demonstrate Alert Dialog Box. 
+
+// AlertDialogActivity.java 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import androidx.appcompat.app.AlertDialog; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class AlertDialogActivity extends AppCompatActivity { 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_alert_dialog); 
+ 
+        Button showDialogButton = findViewById(R.id.showDialogButton); 
+        showDialogButton.setOnClickListener(v -> { 
+            new AlertDialog.Builder(this) 
+                .setTitle("Alert") 
+                .setMessage("This is an Alert Dialog") 
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss()) 
+                .show(); 
+        }); 
+    } 
+} 
+ 
+// activity_alert_dialog.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+android:orientation="vertical" 
+android:gravity="center" 
+android:padding="20dp"> 
+<Button 
+android:id="@+id/showDialogButton" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content" 
+android:text="Show Alert"/> 
+</LinearLayout> 
+
+Q.2) Create an Android application which will ask the user to input his / her name. A message 
+should display the two items concatenated in a label. Change the format of the label using radio 
+buttons and check boxes for selection. The user can make the label text bold, underlined or italic 
+as well as change its color. Also include buttons to display the message in the label, clear the text 
+boxes as well as label. Finally exit. 
+
+// FormattedNameActivity.java 
+import android.graphics.Typeface; 
+import android.os.Bundle; 
+import android.widget.Button; 
+import android.widget.CheckBox; 
+import android.widget.EditText; 
+import android.widget.RadioButton; 
+import android.widget.TextView; 
+import androidx.appcompat.app.AppCompatActivity; 
+public class FormattedNameActivity extends AppCompatActivity { 
+private TextView displayText; 
+private EditText inputName; 
+private CheckBox boldCheck, italicCheck, underlineCheck; 
+private RadioButton redColor, blueColor; 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_formatted_name); 
+ 
+        inputName = findViewById(R.id.inputName); 
+        displayText = findViewById(R.id.displayText); 
+        boldCheck = findViewById(R.id.boldCheck); 
+        italicCheck = findViewById(R.id.italicCheck); 
+        underlineCheck = findViewById(R.id.underlineCheck); 
+        redColor = findViewById(R.id.redColor); 
+        blueColor = findViewById(R.id.blueColor); 
+        Button showButton = findViewById(R.id.showButton); 
+        Button clearButton = findViewById(R.id.clearButton); 
+ 
+        showButton.setOnClickListener(v -> { 
+            String name = inputName.getText().toString(); 
+            displayText.setText(name); 
+            int style = Typeface.NORMAL; 
+            if (boldCheck.isChecked()) style |= Typeface.BOLD; 
+            if (italicCheck.isChecked()) style |= Typeface.ITALIC; 
+            displayText.setTypeface(null, style); 
+            if (underlineCheck.isChecked()) displayText.setPaintFlags(displayText.getPaintFlags() | 
+android.graphics.Paint.UNDERLINE_TEXT_FLAG); 
+            if (redColor.isChecked()) 
+displayText.setTextColor(getResources().getColor(android.R.color.holo_red_dark)); 
+            else if (blueColor.isChecked()) 
+displayText.setTextColor(getResources().getColor(android.R.color.holo_blue_dark)); 
+        }); 
+ 
+        clearButton.setOnClickListener(v -> { 
+            inputName.setText(""); 
+            displayText.setText(""); 
+        }); 
+    } 
+} 
+ 
+// activity_formatted_name.xml 
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/inputName" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter Name"/> 
+ 
+    <CheckBox 
+        android:id="@+id/boldCheck" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Bold"/> 
+ 
+    <CheckBox 
+        android:id="@+id/italicCheck" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Italic"/> 
+ 
+    <CheckBox 
+        android:id="@+id/underlineCheck" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Underline"/> 
+ 
+    <RadioButton 
+        android:id="@+id/redColor" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Red"/> 
+ 
+    <RadioButton 
+        android:id="@+id/blueColor" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Blue"/> 
+ 
+    <Button 
+        android:id="@+id/showButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Show"/> 
+ 
+    <Button 
+        android:id="@+id/clearButton" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Clear"/> 
+ 
+    <TextView 
+android:id="@+id/displayText" 
+android:layout_width="wrap_content" 
+android:layout_height="wrap_content"/>
+</LinearLayout>
