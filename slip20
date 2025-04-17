@@ -1,0 +1,154 @@
+Q1] Write an application to accept two numbers from the user and displays them. But Reject input 
+if both numbers are greater than 20 and asks for two new numbers. 
+package com.example.numbervalidation; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.TextView; 
+import android.widget.Toast; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private EditText edtNum1, edtNum2; 
+    private Button btnSubmit; 
+    private TextView txtResult; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        edtNum1 = findViewById(R.id.edtNum1); 
+        edtNum2 = findViewById(R.id.edtNum2); 
+        btnSubmit = findViewById(R.id.btnSubmit); 
+        txtResult = findViewById(R.id.txtResult); 
+ 
+        btnSubmit.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                try { 
+                    int num1 = Integer.parseInt(edtNum1.getText().toString()); 
+                    int num2 = Integer.parseInt(edtNum2.getText().toString()); 
+ 
+                    if (num1 > 20 && num2 > 20) { 
+                        Toast.makeText(MainActivity.this, "Both numbers are greater than 20. Enter new 
+numbers.", Toast.LENGTH_LONG).show(); 
+                        edtNum1.setText(""); 
+                        edtNum2.setText(""); 
+                    } else { 
+                        txtResult.setText("Entered Numbers: " + num1 + " & " + num2); 
+                    } 
+                } catch (NumberFormatException e) { 
+                    Toast.makeText(MainActivity.this, "Please enter valid numbers!", 
+Toast.LENGTH_SHORT).show(); 
+                } 
+            } 
+        }); 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center" 
+    android:padding="20dp"> 
+ 
+    <EditText 
+        android:id="@+id/edtNum1" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter First Number" 
+        android:inputType="number"/> 
+ 
+    <EditText 
+        android:id="@+id/edtNum2" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter Second Number" 
+        android:inputType="number"/> 
+ 
+    <Button 
+        android:id="@+id/btnSubmit" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Submit"/> 
+ 
+    <TextView 
+        android:id="@+id/txtResult" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:textSize="18sp" 
+        android:layout_marginTop="10dp"/> 
+</LinearLayout> 
+ 
+Q2] Java Android Program to send email with attachment. 
+package com.example.emailattachment; 
+ 
+import android.content.Intent; 
+import android.net.Uri; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import androidx.appcompat.app.AppCompatActivity; 
+import java.io.File; 
+ 
+public class MainActivity extends AppCompatActivity { 
+    private Button btnSendEmail; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        btnSendEmail = findViewById(R.id.btnSendEmail); 
+         
+        btnSendEmail.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                sendEmailWithAttachment(); 
+            } 
+        }); 
+    } 
+ 
+    private void sendEmailWithAttachment() { 
+        Intent emailIntent = new Intent(Intent.ACTION_SEND); 
+        emailIntent.setType("message/rfc822"); 
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"recipient@example.com"}); 
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject: Android Email"); 
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "This is the email body."); 
+ 
+        // Attach a file (make sure the file exists) 
+        File file = new File("/sdcard/Download/sample.pdf"); 
+        if (file.exists()) { 
+            Uri uri = Uri.fromFile(file); 
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri); 
+        } else { 
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Attachment not found. Sending email without 
+attachment."); 
+        } 
+ 
+        try { 
+            startActivity(Intent.createChooser(emailIntent, "Send email using...")); 
+        } catch (android.content.ActivityNotFoundException ex) { 
+            // No email client installed 
+        } 
+    } 
+} 
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:orientation="vertical" 
+    android:gravity="center" 
+    android:padding="20dp"> 
+ 
+    <Button 
+        android:id="@+id/btnSendEmail" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Send Email with Attachment"/> 
+</LinearLayout> 
+ 
+ 
